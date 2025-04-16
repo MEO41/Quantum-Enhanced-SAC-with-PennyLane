@@ -42,14 +42,15 @@ def evaluate(agent, env, num_episodes):
     lengths = []
     
     for _ in range(num_episodes):
-        state = env.reset()
+        state, _ = env.reset()
         episode_reward = 0
         episode_length = 0
         done = False
         
         while not done:
             action = agent.select_action(state, evaluate=True)
-            next_state, reward, done, _ = env.step(action)
+            next_state, reward, terminated, truncated, info = env.step(action)
+            done = terminated or truncated
             
             episode_reward += reward
             episode_length += 1
@@ -97,7 +98,7 @@ def train(args):
     logger.log_model_info(agent)
     
     # Initialize variables
-    state = env.reset()
+    state, _ = env.reset()
     episode_reward = 0
     episode_length = 0
     episode_num = 0
@@ -116,7 +117,8 @@ def train(args):
             action = agent.select_action(state)
         
         # Execute action
-        next_state, reward, done, _ = env.step(action)
+        next_state, reward, terminated, truncated, info = env.step(action)
+        done = terminated or truncated
         episode_reward += reward
         episode_length += 1
         
@@ -136,7 +138,7 @@ def train(args):
             logger.log_episode(episode_num, episode_reward, episode_length, step)
             
             # Reset environment
-            state = env.reset()
+            state, _ = env.reset()
             episode_reward = 0
             episode_length = 0
             episode_num += 1
@@ -194,7 +196,7 @@ def test(args):
     
     # Run and render one episode for visualization
     print("Rendering one episode...")
-    state = env.reset()
+    state, _ = env.reset()
     done = False
     total_reward = 0
     

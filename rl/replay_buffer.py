@@ -26,11 +26,14 @@ class ReplayBuffer:
     
     def store(self, state, action, reward, next_state, done):
         """Store a transition in the buffer"""
-        self.states[self.ptr] = state
-        self.actions[self.ptr] = action
-        self.rewards[self.ptr] = reward
-        self.next_states[self.ptr] = next_state
-        self.dones[self.ptr] = done
+        """print(f"State type: {type(state)}, shape: {np.shape(state)}")   # activate this parts for only debugging purposes it will not going to effect the execution process but it will give you a lot of prints on the command line
+        print(f"Action type: {type(action)}, shape: {np.shape(action)}")"""
+
+        self.states[self.ptr] = np.array(state, dtype=np.float32)
+        self.actions[self.ptr] = np.array(action, dtype=np.float32)
+        self.rewards[self.ptr] = np.array([reward], dtype=np.float32)  # wrap in list to match shape (1,)
+        self.next_states[self.ptr] = np.array(next_state, dtype=np.float32)
+        self.dones[self.ptr] = np.array([done], dtype=np.float32)      # same here
         
         # Update pointer
         self.ptr = (self.ptr + 1) % self.buffer_size

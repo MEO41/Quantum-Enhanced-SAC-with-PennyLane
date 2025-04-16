@@ -19,8 +19,11 @@ class Actor(nn.Module):
         super(Actor, self).__init__()
         
         self.action_dim = action_dim
-        self.action_scale = torch.FloatTensor((action_high - action_low) / 2.0)
-        self.action_bias = torch.FloatTensor((action_high + action_low) / 2.0)
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.action_scale = torch.tensor((action_high - action_low) / 2.0, dtype=torch.float32).to(device)
+        self.action_bias = torch.tensor((action_high + action_low) / 2.0, dtype=torch.float32).to(device)
+        #self.action_scale = torch.FloatTensor((action_high - action_low) / 2.0) #those are works in only cpu
+        #self.action_bias = torch.FloatTensor((action_high + action_low) / 2.0)
         
         # Build the network
         layers = [nn.Linear(state_dim, hidden_dims[0]), nn.ReLU()]
