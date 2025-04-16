@@ -19,10 +19,10 @@ The implementation compares:
 - TensorBoard
 - PennyLane
 - Matplotlib
-
+!!! it's advice to work in virtual env.
 Install dependencies with:
 ```bash
-pip install torch gym numpy tensorboard pennylane matplotlib
+pip install torch gym numpy==1.23.5 tensorboard pennylane matplotlib pandas
 ```
 
 ## Project Structure
