@@ -14,6 +14,14 @@ from env.make_env import make_env, EnvInfo
 from rl.sac_agent import SACAgent
 from rl.replay_buffer import ReplayBuffer
 
+
+def reset_env(env, seed=None):
+    try:
+        obs, _ = env.reset(seed=seed)
+    except:
+        obs = env.reset()
+    return obs
+
 def test_env():
     """Test environment setup"""
     print("Testing environment...")
@@ -27,7 +35,7 @@ def test_env():
     print(f"Observation space: {env_info.observation_space}")
     
     # Test reset and step
-    state = env.reset()
+    state = reset_env(env, seed=42)
     print(f"Initial state shape: {state.shape}")
     action = env.action_space.sample()
     next_state, reward, done, info = env.step(action)

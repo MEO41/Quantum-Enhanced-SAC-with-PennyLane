@@ -8,7 +8,8 @@ def make_env(env_name, seed=None):
     env = gym.make(env_name)
     
     if seed is not None:
-        env.seed(seed)
+        # env.seed(seed) # <-- Gym doesn't use this anymore
+        env.reset(seed=seed) # <-- Instead it's uses this
         env.action_space.seed(seed)
         np.random.seed(seed)
         random.seed(seed)
