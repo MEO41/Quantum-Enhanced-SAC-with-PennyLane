@@ -26,7 +26,7 @@ def test_env():
     """Test environment setup"""
     print("Testing environment...")
     
-    env = make_env("LunarLanderContinuous-v2", seed=42)
+    env = make_env("MountainCarContinuous-v0", seed=42)
     env_info = EnvInfo(env)
     
     print(f"Observation dim: {env_info.observation_dim}")
@@ -38,7 +38,13 @@ def test_env():
     state = reset_env(env, seed=42)
     print(f"Initial state shape: {state.shape}")
     action = env.action_space.sample()
-    next_state, reward, done, info = env.step(action)
+    print("Sampled action:", action)
+    print("Action type:", type(action))
+    #print("Action shape:", action.shape)
+    #print("Action dtype:", action.dtype)
+    #action = np.asarray(action, dtype=np.float32).flatten # the .sampe() method usally works but some box2d environemtns can give output in float64
+    next_state, reward, terminated, truncated, info = env.step(action)
+    done = terminated or truncated
     print(f"Next state shape: {next_state.shape}, Reward: {reward}, Done: {done}")
     
     print("Environment test passed!\n")
