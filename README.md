@@ -15,7 +15,7 @@ The implementation compares:
 - Python 3.6+
 - PyTorch
 - Gym
-- NumPy
+- NumPy # numpy==1.23.5 downgrading solve some type mismatching problems
 - TensorBoard
 - PennyLane
 - Matplotlib
